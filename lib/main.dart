@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'dart:math';
 
 void main() {
   runApp(const WeatherApp());
@@ -29,16 +30,41 @@ class WeatherHomePage extends StatefulWidget {
 
 class _WeatherHomePageState extends State<WeatherHomePage> {
   final TextEditingController _cityController = TextEditingController();
+  final Random _random = Random();
   String _cityName = "";
   String _temperature = "--°C";
   String _weatherCondition = "Unknown";
 
+  // List of possible weather conditions
+  final List<String> _weatherConditions = ['Sunny', 'Cloudy', 'Rainy'];
+
+  // Generate random temperature between 15°C and 30°C
+  String _generateRandomTemperature() {
+    int temp = _random.nextInt(16) + 15; // Random number between 15 and 30
+    return '${temp.toString()}°C';
+  }
+
+  // Select random weather condition
+  String _generateRandomWeatherCondition() {
+    return _weatherConditions[_random.nextInt(_weatherConditions.length)];
+  }
+
   void _fetchWeather() {
+    if (_cityController.text.isEmpty) {
+      // Show error if city name is empty
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(
+          content: Text('Please enter a city name'),
+          duration: Duration(seconds: 2),
+        ),
+      );
+      return;
+    }
+
     setState(() {
       _cityName = _cityController.text;
-      // Placeholder values, will be replaced with real API data in the next step.
-      _temperature = "25°C";
-      _weatherCondition = "Sunny";
+      _temperature = _generateRandomTemperature();
+      _weatherCondition = _generateRandomWeatherCondition();
     });
   }
 
