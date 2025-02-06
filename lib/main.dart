@@ -16,6 +16,7 @@ class WeatherApp extends StatelessWidget {
       theme: ThemeData(
         primarySwatch: Colors.blue,
         useMaterial3: true,
+        useMaterial3: true,
       ),
       home: const WeatherHomePage(),
     );
@@ -73,6 +74,7 @@ class _WeatherHomePageState extends State<WeatherHomePage> with SingleTickerProv
   }
 
   String _generateRandomTemperature() {
+    int temp = _random.nextInt(16) + 15;
     int temp = _random.nextInt(16) + 15;
     return '${temp.toString()}°C';
   }
